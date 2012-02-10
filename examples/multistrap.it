@@ -2,16 +2,19 @@
 
 # multistrap - multiple repository bootstraps
 #
-# Synopsis
+# New Synopsis with it:
+#     multistrap.it --suite SUITE --directory PATH [--arch ARCH] 
+#
+# Original Synopsis of multistrap:
 #     multistrap [-a ARCH] [-d DIR] -f CONFIG_FILE
 #     multistrap [--simulate] -f CONFIG_FILE
 
 command ["multistrap", "-f", :config_file]
-attributes ["--suite","--directory"]
+attributes ["--suite","--directory","--arch"]
 
 config_file <<EOF
 [General]
-arch=<%= %x{dpkg-architecture|grep DEB_HOST_ARCH=}.split("=")[1].strip %>
+arch=<%= @arch or %x{dpkg-architecture|grep DEB_HOST_ARCH=}.split("=")[1].strip %>
 directory=<%= @directory or raise "Where to install? Please add parameter --directory DIR" %>
 # same as --tidy-up option if set to true
 cleanup=true
