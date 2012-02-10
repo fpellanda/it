@@ -20,4 +20,14 @@ An the documentation doesn't help either:
   multistrap [-a ARCH] [-d DIR] -f CONFIG_FILE
 
 And the solution is a 'it' script - you can use pure ruby and ERB.
+x
+Have a look at the example file in "examples/multistrap.it".
 
+To try it download the repo and execute the script with:
+
+  ruby bin/it examples/multistrap.it
+
+== TODO
+
+* Add nicer error messages
+* Add tests
