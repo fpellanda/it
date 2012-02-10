@@ -1,0 +1,23 @@
+= Synopsis
+
+Have you ever wanted to run a simple command, but the command needed a configuration file? You could create a configuration file, but if you want to run the command slightly different you have to change the configuration file again... at this point I normally gave up - but now the solution is 'it'.
+
+Inline Template: Crate a "wrapper" command that contains a configurable configuration file inline. Use pure ruby and ERB to create your configuration on the fly, and the command will be executed for you.
+
+== Example
+
+I wanted to create a simple "Lenny" bootstraped jail with multistrap, I thought I could run something like:
+
+  root@localhost# multistrap --suite lenny --directory /tmp/lenny_chroot
+
+But when running the command, this is the result:
+
+  root@localhost# multistrap
+  Need a configuration file - use multistrap -f
+
+An the documentation doesn't help either:
+
+  multistrap [-a ARCH] [-d DIR] -f CONFIG_FILE
+
+And the solution is a 'it' script - you can use pure ruby and ERB.
+
