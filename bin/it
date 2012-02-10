@@ -1,0 +1,62 @@
+#!/usr/bin/env ruby
+# -*- coding: utf-8 -*-
+require "tempfile"
+require "erb"
+
+@attributes = ["--dry-run"]
+@command = []
+@bool_attributes = ["--dry-run"]
+def attributes(attrs); @attributes += attrs; end
+def command(cmd); @command += cmd; end
+def config_file(templ); @template = templ; end
+
+
+file = ARGV.shift
+load file
+
+real_command = @command.dup
+template_arguments = {}
+while (arg = ARGV.shift)
+  if @attributes.include?(arg)
+    template_arguments[arg.sub("--","").gsub("-","_")] = 
+      @bool_attributes.include?(arg) ? true : ARGV.shift
+  else
+    real_command << arg
+  end
+end
+
+Tempfile.open("config_file") {|tempfile|
+  template_arguments["config_file"] = tempfile.path
+
+  template_arguments.each {|key, val|
+    while idx = real_command.index(key.to_sym)
+      real_command[idx] = val
+    end
+  }
+
+  class Template
+    def initialize(erb_txt, args)
+      @template = ERB.new(erb_txt)
+      @arguments = args
+      args.each {|key,val|
+        self.instance_variable_set("@#{key}", val)
+      }
+    end
+    def result
+      @template.result(binding)
+    end
+  end
+  tmpl = Template.new(@template, template_arguments)
+  tempfile.write tmpl.result
+  tempfile.close
+
+  if template_arguments["dry_run"]
+    puts "", "configfile","----------",""    
+    system("cat", tempfile.path)
+    puts "", "----------",""
+    puts "Would execute #{real_command.inspect}",""
+  else
+    system(*real_command)
+  end
+}
+
