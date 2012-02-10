@@ -25,7 +25,14 @@ Have a look at the example file in "examples/multistrap.it".
 
 To try it download the repo and execute the script with:
 
-  ruby bin/it examples/multistrap.it
+  ruby bin/it examples/multistrap.it --directory /tmp/lenny-chroot --suite lenny
+
+You need to have multistrap package installed: apt-get install multistrap
+
+== Note
+
+Don't be afraid of exceptions, I used them to output errors for the user. Read them and descide if you have to provide more parameters.
+
 
 == TODO
 
