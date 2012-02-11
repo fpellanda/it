@@ -31,7 +31,12 @@ You need to have multistrap package installed: apt-get install multistrap
 
 == Install
 
-Checkout and execute
+Checkout
+
+  git clone http://github.com/fpellanda/it
+  cd it
+
+and execute
 
   ruby setup.rb
 
