@@ -24,6 +24,7 @@ if file.nil? or ["-h", "--help"]
   puts "  it myscript.it --abc myargument --otherargument"
   puts "", "You can run it with --dry-run to show what will be generated."
   puts "","more on: http://github.com/fpellanda/it"
+  exit 1
 end
 raise "Please provide a *.it file as first argument or run -h" unless Pathname.new(file).exist?
 load file
