@@ -14,7 +14,7 @@ def config_file(templ); @template = templ; end
 file = ARGV.shift
 if file.nil? or ["-h", "--help"]
   puts "Runs an it script"
-  puts "", "short help:"
+  puts "", "Short help of commands for your it script."
   puts "  command ['scriptthatneedconfig','--config',:config_file]"
   puts "  attributes ['--abc', '--xyz']"
   puts "  config_file <<EOF"
