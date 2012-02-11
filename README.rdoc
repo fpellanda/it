@@ -29,6 +29,16 @@ To try it download the repo and execute the script with:
 
 You need to have multistrap package installed: apt-get install multistrap
 
+== Install
+
+Checkout and execute
+
+  ruby setup.rb
+
+Or you can execute any it script with
+
+  ruby bin/it yourscript.it --abc test --dry-run
+
 == Documentation
 
 It scripts are pure ruby and extended by some functions. Here an explanation based on the multistrap example:
