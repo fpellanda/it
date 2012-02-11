@@ -10,6 +10,16 @@ def attributes(attrs); @attributes += attrs; end
 def command(cmd); @command += cmd; end
 def config_file(templ); @template = templ; end
 
+if file.nil? or ["-h", "--help"]
+  puts "Runs an it script"
+  puts "", "short help:"
+  puts "  command ['scriptthatneedconfig','--config',:config_file]"
+  puts "  attributes ['--abc', '--xyz']"
+  puts "  config_file <<EOF"
+  puts "  value: <%= @abc.upcase %>"
+  puts "  EOF"
+  ptus "","more on: http://github.com/fpellanda/it"
+end
 
 file = ARGV.shift
 load file
