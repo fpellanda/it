@@ -12,7 +12,7 @@ def command(cmd); @command += cmd; end
 def config_file(templ); @template = templ; end
 
 file = ARGV.shift
-if file.nil? or ["-h", "--help"]
+if file.nil? or ["-h", "--help"].include?(file)
   puts "Runs an it script"
   puts "", "Short help of commands for your it script."
   puts "  command ['scriptthatneedconfig','--config',:config_file]"
