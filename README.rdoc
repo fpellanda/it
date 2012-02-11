@@ -100,7 +100,7 @@ and then execute the command:
 
 === dry-run
 
-If you add a parameter --dry-run, the configuration file is printed to console and the command that would be executed.
+If you add a parameter --dry-run, the generated configuration and the command that would be executed will printed on your console. The command is not executed.
 
 E.g.
 
