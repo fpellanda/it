@@ -29,10 +29,84 @@ To try it download the repo and execute the script with:
 
 You need to have multistrap package installed: apt-get install multistrap
 
+== Documentation
+
+It scripts are pure ruby and extended by some functions. Here an explanation based on the multistrap example:
+
+=== Command to execute
+
+  command ["multistrap", "-f", :config_file]
+
+This defines command array that should be executed after the configuration file is generated. :config_file will be replaced with the temporary saved configuration file.
+
+E.g. this
+
+  ruby bin/it multistrap --directory PATH
+
+would execute something like:
+
+  $ multistrap -f /tmp/config_file-12879343294823984
+
+=== New arguments for configuring your template
+
+  attributes ["--suite","--directory","--arch"]
+
+With attributes you can define new parameters for your script. These parameters can be used in the script e.g. with @directory. Compare Template section. Any not listed parameter will be forwarded to the command that will be executed.
+
+E.g. this
+
+  ruby bin/it multistrap --directory PATH --xyz VAL
+
+would execute something like:
+
+  $ multistrap -f /tmp/config_file-.... --xyz VAL
+
+=== Template
+
+config_file <<EOF
+[General]
+arch=<%= @arch or %x{dpkg-architecture|grep DEB_HOST_ARCH=}.split("=")[1].strip %>
+directory=<%= @directory or raise "Where to install? Please add parameter --directory DIR" %>
+# same as --tidy-up option if set to true
+...
+source=http://ftp.ch.debian.org/debian
+keyring=debian-archive-keyring
+suite=<%= @suite or raise "What suite? Please add --suite SUITE. E.g. lenny" %>
+EOF
+
+Defines the configuration file to generate. This is a ruby ERB template. Compare ruby ERB documenation. All parameters that are listened in attributes can be used in the template as instance variables.
+
+E.g. this
+
+config_file <<EOF
+# anything can be inserted
+<%= @directory %>
+arch: <%= @arch.upcase %>
+EOF
+
+executed with
+
+  ruby bin/it multistrap --directory /tmp/test --arch foo --xyz --test BLA
+
+would generate a temporary configuration file:
+
+  # anything can be inserted
+  /tmp/test
+  arch: FOO
+
+and be executed with
+
+  multistrap -f /tmp/config_file-12312313 --xyz --test BLA
+
+=== dry-run
+
+If you add a parameter --dry-run, the configuration file is printed to console and the command that would be executed.
+
+No damage! TRY IT! :-)
+
 == Note
 
 Don't be afraid of exceptions, I used them to output errors for the user. Read them and descide if you have to provide more parameters.
-
 
 == TODO
 
