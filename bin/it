@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 require "tempfile"
 require "erb"
+require "pathname"
 
 @attributes = ["--dry-run"]
 @command = []
@@ -10,6 +11,7 @@ def attributes(attrs); @attributes += attrs; end
 def command(cmd); @command += cmd; end
 def config_file(templ); @template = templ; end
 
+file = ARGV.shift
 if file.nil? or ["-h", "--help"]
   puts "Runs an it script"
   puts "", "short help:"
@@ -20,8 +22,7 @@ if file.nil? or ["-h", "--help"]
   puts "  EOF"
   ptus "","more on: http://github.com/fpellanda/it"
 end
-
-file = ARGV.shift
+raise "Please provide a *.it file as first argument or run -h" unless Pathname.new(file).exist?
 load file
 
 real_command = @command.dup
