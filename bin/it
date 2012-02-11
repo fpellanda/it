@@ -20,7 +20,10 @@ if file.nil? or ["-h", "--help"]
   puts "  config_file <<EOF"
   puts "  value: <%= @abc.upcase %>"
   puts "  EOF"
-  ptus "","more on: http://github.com/fpellanda/it"
+  puts "", "Then make your script executable or run"
+  puts "  it myscript.it --abc myargument --otherargument"
+  puts "", "You can run it with --dry-run to show what will be generated."
+  puts "","more on: http://github.com/fpellanda/it"
 end
 raise "Please provide a *.it file as first argument or run -h" unless Pathname.new(file).exist?
 load file
